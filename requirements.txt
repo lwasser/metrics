@@ -13,3 +13,5 @@ jupyterlab-myst
 pip
 pandas
 altair
+# To build the book
+nox

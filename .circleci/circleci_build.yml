@@ -1,0 +1,34 @@
+version: 2.1
+
+jobs:
+  build-website:  # Renamed the job to build-website
+    docker:
+      - image: cimg/python:3.11-node
+    steps:
+      - checkout
+      - run: python --version
+      - run: node --version
+      - run:
+          name: setup environment
+          command: |
+            pip install --upgrade pip
+            pip install -r requirements.txt
+            pip list
+      - run:
+          name: setup Node.js environment
+          command: |
+            npm install  # Install Node.js dependencies if needed
+      - run:
+          name: Build website HTML
+          command: nox -s html
+
+      - store_artifacts:
+          path: _build/html
+          destination: html
+
+# Define the workflow
+workflows:
+  version: 2
+  build-website:  # Updated the workflow name to match the job name
+    jobs:
+      - build-website
